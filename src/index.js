@@ -22,7 +22,7 @@ app.post("/sign-up", (req, res) => {
 })
 
 app.get("/sign-up", (req, res) => {
-    res.send(users);
+    res.sendStatus(201).send(users);
 });
 
 app.post("/tweets", (req, res) => {
@@ -36,7 +36,7 @@ app.post("/tweets", (req, res) => {
         id: tweets.length + 1
     });
 
-    res.send("OK");
+    res.sendStatus(201).send("OK");
 })
 
 app.get("/tweets", (req, res) => {
