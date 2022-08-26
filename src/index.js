@@ -22,7 +22,7 @@ app.post("/sign-up", (req, res) => {
 })
 
 app.get("/sign-up", (req, res) => {
-    res.sendStatus(201).send(users);
+    res.send(users);
 });
 
 app.post("/tweets", (req, res) => {
@@ -40,7 +40,8 @@ app.post("/tweets", (req, res) => {
 })
 
 app.get("/tweets", (req, res) => {
-    res.send(tweets);
+    const tweetsRecentes = tweets.reverse().slice(0,10)
+    res.send(tweetsRecentes);
 })
 
 app.listen(5000, () => {
