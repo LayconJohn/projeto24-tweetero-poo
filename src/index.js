@@ -51,7 +51,7 @@ app.post("/tweets", (req, res) => {
 
     /*if (validaUsuarioExistente(users, username)) {
         return res.status(401).send("Usuário não cadastrado")
-    }*/
+    }*/ 
 
     tweets.push({
         username: username,
@@ -64,7 +64,15 @@ app.post("/tweets", (req, res) => {
 })
 
 app.get("/tweets", (req, res) => {
-    const tweetsRecentes = tweets.reverse().slice(0,10)
+    const user = req.query.username;
+
+    if (user) {
+        const tweetsFiltrados = tweets.filter( tweet => tweet.username.toLowerCase() === user);
+        return res.send(tweetsFiltrados.reverse().slice(0, 10));
+    }
+
+    const tweetsRecentes = tweets.reverse().slice(0,10);
+    
     res.send(tweetsRecentes);
 })
 
