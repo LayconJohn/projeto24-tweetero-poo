@@ -41,7 +41,9 @@ app.get("/sign-up", (req, res) => {
 });
 
 app.post("/tweets", (req, res) => {
-    const {username, tweet} = req.body;
+    const { tweet } = req.body;
+    const { username } = req.headers;
+    console.log(username)
 
     const avatar = users.find( user => user.username === username);
 
@@ -64,16 +66,37 @@ app.post("/tweets", (req, res) => {
 })
 
 app.get("/tweets", (req, res) => {
-    const user = req.query.username;
+    const user = req.headers.user
+    const page = req.query.page;
+    let inicioTweets = 0;
+    let fimTweets = 10;
 
-    if (user) {
-        const tweetsFiltrados = tweets.filter( tweet => tweet.username.toLowerCase() === user);
-        return res.send(tweetsFiltrados.reverse().slice(0, 10));
+    if (page < 1) {
+        return res.status(400).send("Informe uma página válida!");
+    } 
+
+    if (page > 1) {
+        inicioTweets = (page * 10) - 10;
+        fimTweets = (page * 10);
     }
 
-    const tweetsRecentes = tweets.reverse().slice(0,10);
+    if (!user) {
+        return res.status(401).send("Usuário não autorizado!")
+    }
+
+    const tweetsRecentes = tweets.reverse().slice(inicioTweets, fimTweets);
     
     res.send(tweetsRecentes);
+})
+
+app.get("/tweets/:USERNAME", (req, res) => {
+    const { USERNAME } = req.params;
+
+    const tweetsFiltrados = tweets.filter( tweet => tweet.username.toLowerCase() === USERNAME.toLowerCase());
+
+    console.log(tweetsFiltrados);
+
+    res.status(200).send(tweetsFiltrados)
 })
 
 app.listen(5000, () => {
