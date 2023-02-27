@@ -1,6 +1,5 @@
 const users = [
 
-
 ];
 
 export {users};
