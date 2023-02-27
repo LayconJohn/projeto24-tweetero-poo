@@ -1,7 +1,9 @@
 import { Router } from "express";
-import tweetsController from "../controllers/tweetsController.js";
+import TweetsController from "../controllers/tweetsController.js";
 
 const router = Router();
+const tweetsController = new TweetsController();
+
 
 router
     .post("/tweets", tweetsController.tweet)

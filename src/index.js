@@ -11,10 +11,10 @@ app
     .use(cors())
     .use(express.json())
     .use(userController)
-    .use(tweetsController)
+    .use(tweetsController);
 
 app.listen(5000, () => {
-    console.log(chalk.green("=.=.=.=.=.=.=.=.=.=.=.=.=.=.=.="))
-    console.log(chalk.green("Servidor rodando na porta 5000"))
-    console.log(chalk.green("=.=.=.=.=.=.=.=.=.=.=.=.=.=.=.="))
+    console.log(chalk.green("=.=.=.=.=.=.=.=.=.=.=.=.=.=.=.="));
+    console.log(chalk.green("Servidor rodando na porta 5000"));
+    console.log(chalk.green("=.=.=.=.=.=.=.=.=.=.=.=.=.=.=.="));
 })
