@@ -5,6 +5,7 @@ class UserController {
         this.validarURL = this.validarURL.bind(this)
         this.verificaUserRepetido = this.verificaUserRepetido.bind(this)
         this.pegarUserLogado = this.pegarUserLogado.bind(this)
+        this.validaUsuarioExistente = this.validaUsuarioExistente.bind(this)
     }
 
     async signUp(req, res) {
@@ -47,6 +48,11 @@ class UserController {
 
     pegarUserLogado(username) {
         return this.users.find( user => user.username === username);
+    }
+
+    validaUsuarioExistente(arr, username) {
+        const usuarioExiste = arr.includes( value => value.username === username );
+        return usuarioExiste;
     }
 }
 
