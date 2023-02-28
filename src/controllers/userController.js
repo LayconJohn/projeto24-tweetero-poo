@@ -1,26 +1,46 @@
-import UserService from "../services/userService.js";
-import User from "../model/userModel.js";
+class UserController {
+    constructor() {
+        this.users = []
+        this.signUp = this.signUp.bind(this)
+        this.validarURL = this.validarURL.bind(this)
+        this.verificaUserRepetido = this.verificaUserRepetido.bind(this)
+    }
 
-const userService = new UserService();
-
-export default class UserController {
     async signUp(req, res) {
         const { username, avatar} = req.body;
+
+        if (!username || !avatar) {
+            return res.status(422).send({ message: "Todos campos são obrigatórios!" });
+        }
+        if (!this.validarURL(avatar)) {
+            return res.status(400).send({ message: "Envie uma URL válida" });
+        }
+        if (this.verificaUserRepetido(this.users, username)) {
+            return res.status(409).send({ message: "Nome de usuário já cadastrado" });
+        }
+        this.users.push({
+            username: username,
+            avatar: avatar,
+            id: this.users.length + 1
+        });
+    }
+
+    validarURL(link) {
         try {
-            const createdUser = await userService.signUpUser(username, avatar);
-            return res.status(201).send(createdUser);
+            new URL(this.link);
+            return true;
         } catch (error) {
-            console.log(error);
-            if (error.name === "BadRequestError") {
-                return res.status(400).send({message: "Envie uma URL válida"});
-            }
-            if (error.name === "InvalidDataError") {
-                return res.status(422).send("Todos campos são obrigatórios!");
-            }
-            if (error.name === "ConflictError") {
-                return res.status(409).send("Nome de usuário já cadastrado");
-            }
-            return res.sendStatus(400);
+            return false;
         }
     }
+
+    verificaUserRepetido(arr, username) {
+        const temRepetido = this.arr.find( value => value.username === this.username);
+        if (temRepetido) {
+            return true;
+        }
+        return false;
+    }
 }
+
+export default new UserController();
