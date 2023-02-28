@@ -1,3 +1,0 @@
-const tweets = [];
-
-export {tweets};

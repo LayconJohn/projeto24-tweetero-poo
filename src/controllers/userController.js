@@ -4,6 +4,7 @@ class UserController {
         this.signUp = this.signUp.bind(this)
         this.validarURL = this.validarURL.bind(this)
         this.verificaUserRepetido = this.verificaUserRepetido.bind(this)
+        this.pegarUserLogado = this.pegarUserLogado.bind(this)
     }
 
     async signUp(req, res) {
@@ -23,11 +24,13 @@ class UserController {
             avatar: avatar,
             id: this.users.length + 1
         });
+
+        return res.sendStatus(201);
     }
 
     validarURL(link) {
         try {
-            new URL(this.link);
+            new URL(link);
             return true;
         } catch (error) {
             return false;
@@ -35,11 +38,15 @@ class UserController {
     }
 
     verificaUserRepetido(arr, username) {
-        const temRepetido = this.arr.find( value => value.username === this.username);
+        const temRepetido = arr.find( value => value.username === username);
         if (temRepetido) {
             return true;
         }
         return false;
+    }
+
+    pegarUserLogado(username) {
+        return this.users.find( user => user.username === username);
     }
 }
 
